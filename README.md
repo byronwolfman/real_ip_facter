@@ -1,4 +1,4 @@
-# Consume CDN IP Addresses through Facter
+# Consume Cloudflare and Fastly IP Addresses through Facter
 
 ## What is this?
 
@@ -13,6 +13,8 @@ Below the list of Cloudflare IP addresses is the following caveat:
 It's unclear what the frequency of "regularly" is, but it sure would be nice to not have to worry about it. I originally solved this problem with a big pile of bash -- you can see what that looked like [over here](https://github.com/byronwolfman/real_ip_hydrator) (but TL;DR: it grabs and parses Cloudflare's published list of IPv4 and IPv6 addresses and shoves them into an nginx config). This was all well and good but I worried that the script and puppet might clobber each other, and anyway, it doesn't seem fantastic to have two different things managing nginx's configuration.
 
 Now, if puppet could consume that information as a fact, we'd be cooking.
+
+(Note that only Cloudflare instructions and examples are provided for brevity. The Fastly facts work exactly the same; just substitute `cloudflare_ipv4s` for `fastly_ipv4s` and `cloudflare_ipv6s` with `fastly_ipv6s` and you're done. Note that at the time of writing, Fastly does not publish any IPv6 addresses, so the latter array will be empty. This is normal.)
 
 ## How it works
 
@@ -57,9 +59,10 @@ Alternatively you can access the facts in the template directly as a top-level v
 
 This script makes certain assumptions which may cause you grief:
 
-- The script assumes return-delimited lists
+- The script assumes return-delimited lists.
 - The script assumes you are using Cloudflare (but Fastly might make an appearance in the future!)
-- The script returns an empty array to facter if it can't download the lists
+- The script returns an empty array to facter if it can't download the lists.
+- The net/http and openssl module are imported for both facts; the json module is additionally imported for Fastly facts.
 
 Use/modify/deploy at your own risk.
 
