@@ -59,8 +59,7 @@ Alternatively you can access the facts in the template directly as a top-level v
 
 This script makes certain assumptions which may cause you grief:
 
-- The script assumes return-delimited lists.
-- The script assumes you are using Cloudflare (but Fastly might make an appearance in the future!)
+- The script assumes return-delimited lists for Cloudflare and a JSON blob for Fastly.
 - The script returns an empty array to facter if it can't download the lists.
 - The net/http and openssl module are imported for both facts; the json module is additionally imported for Fastly facts.
 
